@@ -27,6 +27,7 @@ function applyVisibility() {
     document.body.classList.toggle('mc-replacing', replace);
     native.classList.toggle('mc-native-hidden', replace && visible);
     const show = replace && visible;
+    document.body.classList.toggle('mc-open', show);
     if (show && root.style.display === 'none') { root.style.display = ''; panel.render(); }
     else if (show) panel.sync();
     if (!show) root.style.display = 'none';

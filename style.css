@@ -80,6 +80,18 @@ body.mmu-on:not(.mmu-anim) .mc-app *, body.mmu-on:not(.mmu-anim) .mc-sheet-backd
     scrollbar-width: thin;
 }
 body.mc-replacing #right-nav-panel:has(#mc-root:not([style*="display: none"])) #result_info { display: none !important; }
+/* Compact the drawer header while the editor is open: the name lives in the hero,
+   the favourites quick-switch row (HotSwaps) becomes a slim strip. */
+body.mc-open #rm_button_selected_ch { display: none !important; }
+body.mc-open #rm_PinAndTabs { margin: 0; min-height: 0; }
+body.mc-open #CharListButtonAndHotSwaps { align-items: center; padding: 2px 8px; gap: 8px; }
+body.mc-open #HotSwapWrapper { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
+body.mc-open #HotSwapWrapper .hotswap { margin: 2px 0; gap: 6px; flex-wrap: nowrap; justify-content: flex-start; }
+body.mc-open #HotSwapWrapper .hotswap .avatar,
+body.mc-open #HotSwapWrapper .hotswap .avatar img { width: 32px !important; height: 32px !important; min-width: 32px; border-radius: 50% !important; }
+body.mc-open #HotSwapWrapper .hotswap .avatar { opacity: 0.85; transition: transform 0.25s var(--mc-pop), opacity 0.2s ease; }
+body.mc-open #HotSwapWrapper .hotswap .avatar:active { transform: scale(0.9); opacity: 1; }
+body.mc-open #rm_button_characters { font-size: 18px; }
 body.mc-ai-busy #rightNavDrawerIcon { border-radius: 50%; animation: mc-ring 1.6s ease-out infinite; }
 
 .mc-app {

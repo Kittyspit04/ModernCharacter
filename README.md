@@ -30,6 +30,15 @@ replaced. Under the hood the editor writes through SillyTavern's own form and sa
 export, backups, the advanced-definitions popup, slash commands and other extensions all see the same
 data. Turn **Replace the built-in character editor** off in the Settings tab to get the stock form back.
 
+## On desktop
+
+On screens wider than 1000 px the editor opens as a large centred window (up to 1440 px) instead of inside
+SillyTavern's character panel, which is only as wide as the space beside the chat and gets very narrow with a
+wide Chat Width. Inside the window the hero card and the tabs sit in a left column and the open tab fills the
+right; the Create bar stays at the bottom. Close it with the back arrow (character list) or the panel icon in
+the top bar. This works on its own; with [Modern Mobile UI](https://github.com/Kittyspit04/ModernMobileUI)'s
+desktop mode it uses that theme's colours, Liquid Glass and Light modes included. On phones nothing changes.
+
 ## What you get
 
 ### Hero card

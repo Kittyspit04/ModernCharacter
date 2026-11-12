@@ -252,9 +252,9 @@ body.mc-ai-busy .mc-hero.is-active .mc-hero-avatar { animation: mc-ring 1.6s eas
     overflow: hidden;
 }
 .mc-seg-indicator {
-    position: absolute; top: 4px; bottom: 4px; left: 0; width: 0;
+    position: absolute; top: 0; left: 0; width: 0; height: 0;
     background: var(--mc-surface-2); border-radius: 999px;
-    transition: transform 0.4s var(--mc-pop), width 0.3s var(--mc-smooth);
+    transition: transform 0.4s var(--mc-pop), width 0.3s var(--mc-smooth), height 0.3s var(--mc-smooth);
     pointer-events: none;
 }
 .mc-seg-btn {
@@ -683,4 +683,83 @@ body.mc-no-motion .mc-app *, body.mc-no-motion .mc-sheet-backdrop *, body.mc-no-
     .mc-topbar .mc-btn-label { display: inline; }
     .mc-new-btn .mc-btn-label { display: none; }
     .mc-new-btn { width: 32px; padding: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop (wider than 1000 px): the editor opens as a large window instead of
+   SillyTavern's side panel, which is only (screen - chat width) / 2 wide.
+   Works on its own; with Modern Mobile UI's desktop mode it sits on top of
+   that layout the same way (these selectors are more specific than its panel rules).
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1001px) {
+    body.mc-open #right-nav-panel.openDrawer {
+        --mc-win: min(1440px, calc(100vw - 32px));
+        position: fixed !important;
+        top: calc(var(--topBarBlockSize, 40px) + 8px) !important;
+        left: calc((100vw - var(--mc-win)) / 2) !important;
+        right: auto !important;
+        width: var(--mc-win) !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        height: calc(100dvh - var(--topBarBlockSize, 40px) - 16px) !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        border: 1px solid var(--mc-line) !important;
+        border-radius: 22px !important;
+        background-color: var(--mc-bg) !important;
+        box-shadow: var(--mc-shadow), 0 0 0 100vmax rgba(0, 0, 0, 0.28) !important;
+        overflow: hidden !important;
+        z-index: 3004 !important;
+        animation: mc-sheet-up 0.4s var(--mc-smooth);
+    }
+    /* SillyTavern's header row (pin, list button, quick-swap avatars) is not needed in the
+       window: the editor's back arrow returns to the character list. */
+    body.mc-open #right-nav-panel.openDrawer > :not(.scrollableInner) { display: none !important; }
+    body.mc-open #right-nav-panel.openDrawer > .scrollableInner {
+        flex: 1 1 auto; min-height: 0; height: auto !important; max-height: none !important;
+        display: flex; flex-direction: column; overflow: hidden !important; padding: 0 !important;
+    }
+    body.mc-open #right-nav-panel.openDrawer #mc-root { flex: 1 1 auto; min-height: 0; height: 100%; overflow: hidden; }
+
+    /* Two columns: identity and tabs on the left, the open tab on the right */
+    #mc-root .mc-app:has(> .mc-topbar) {
+        display: grid;
+        grid-template-columns: minmax(270px, 320px) minmax(0, 1fr);
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        grid-template-areas: "top top" "hero panel" "tabs panel" "bar bar";
+        column-gap: 8px;
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+    }
+    #mc-root .mc-app > .mc-topbar { grid-area: top; padding: 14px 20px 12px; }
+    #mc-root .mc-app > .mc-hero {
+        grid-area: hero; flex-direction: column; text-align: center; gap: 12px;
+        margin: 18px 0 14px 18px; padding: 22px 16px 18px;
+    }
+    #mc-root .mc-app > .mc-hero .mc-hero-avatar, #mc-root .mc-app > .mc-hero .mc-hero-avatar img { width: 112px; height: 112px; flex-basis: 112px; }
+    #mc-root .mc-app > .mc-hero .mc-hero-glow { left: 50%; top: -90px; transform: translateX(-50%); width: 300px; height: 300px; }
+    #mc-root .mc-app > .mc-hero .mc-hero-main { align-items: center; width: 100%; }
+    #mc-root .mc-app > .mc-hero .mc-hero-name { text-align: center; }
+    #mc-root .mc-app > .mc-hero :is(.mc-hero-tags, .mc-hero-badges) { justify-content: center; padding-left: 0; }
+    #mc-root .mc-app > .mc-hero .mc-hero-actions { position: absolute; top: 10px; right: 10px; flex-direction: column; gap: 4px; }
+    #mc-root .mc-app > .mc-tabs {
+        grid-area: tabs; align-self: start; flex-direction: column; gap: 2px;
+        margin: 0 0 18px 18px; padding: 6px; border-radius: 20px; overflow: visible;
+    }
+    #mc-root .mc-app > .mc-tabs .mc-seg-btn { flex: 0 0 auto; justify-content: flex-start; height: 42px; padding: 0 14px; gap: 10px; border-radius: 14px; font-size: 13.5px; }
+    #mc-root .mc-app > .mc-tabs .mc-seg-btn span { display: inline; }
+    #mc-root .mc-app > .mc-tabs .mc-seg-btn i { width: 16px; text-align: center; }
+    #mc-root .mc-app > .mc-tabs .mc-seg-indicator { border-radius: 14px; }
+    #mc-root .mc-app > .mc-tabs .mc-seg-btn:hover:not([aria-selected="true"]) { color: var(--mc-text); }
+    #mc-root .mc-app > .mc-tabpanel {
+        grid-area: panel; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+        padding: 18px 22px 32px 10px; scrollbar-width: thin;
+    }
+    #mc-root .mc-app > .mc-createbar { grid-area: bar; position: static; padding: 12px 20px; }
+    #mc-root .mc-app .mc-grid2 { grid-template-columns: 1fr 1fr; }
+    #mc-root .mc-app :is(.mc-tool-grid, .mc-goal-grid, .mc-link-grid) { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 }

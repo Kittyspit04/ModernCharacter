@@ -105,8 +105,10 @@ export function segmented({ options, value, onChange, className = '' }) {
     function place() {
         const active = buttons.find(b => b.getAttribute('aria-selected') === 'true');
         if (!active) return;
+        // Works for a row (phones) and for a vertical list (desktop sidebar).
         indicator.style.width = `${active.offsetWidth}px`;
-        indicator.style.transform = `translateX(${active.offsetLeft}px)`;
+        indicator.style.height = `${active.offsetHeight}px`;
+        indicator.style.transform = `translate(${active.offsetLeft}px, ${active.offsetTop}px)`;
     }
     function select(next, fire) {
         value = next;

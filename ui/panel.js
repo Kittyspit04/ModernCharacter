@@ -435,7 +435,7 @@ export function createPanel(root) {
                 h('div.mc-section-head', null, h('span.mc-section-title', null, icon('robot'), t`AI`)),
                 h('div.mc-toggle-stack', null, toggle({ label: t`Give the AI your persona for context`, hint: t`So greetings fit the player's character`, checked: s.ai.includePersona, onChange: (val) => setSetting('ai.includePersona', val) })),
                 h('div.mc-grid2', null,
-                    field({ label: t`Max response tokens`, control: input({ type: 'number', value: String(s.ai.responseLength), onChange: (val) => setSetting('ai.responseLength', Math.max(150, Number(val) || 600)) }) }),
+                    field({ label: t`Max response tokens`, hint: t`0 = SillyTavern's response length`, control: input({ type: 'number', value: String(s.ai.maxTokens ?? 0), onChange: (val) => setSetting('ai.maxTokens', Math.max(0, Number(val) || 0)) }) }),
                     field({ label: t`Output language`, hint: t`Blank = same as the card`, control: input({ value: s.ai.language, placeholder: t`e.g. German`, onChange: (val) => setSetting('ai.language', val.trim()) }) }),
                 ),
                 field({ label: t`System prompt`, control: sys }),
